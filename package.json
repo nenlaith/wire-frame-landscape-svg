@@ -1,7 +1,7 @@
 {
-  "name": "wire-frame-landscape",
+  "name": "wire-frame-landscape-svg",
   "version": "1.0.0",
-  "description": "a visual effect using html5 canvas",
+  "description": "a visual effect using svg",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nenlaith/wire-frame-landscape.git"
+    "url": "git+https://github.com/nenlaith/wire-frame-landscape-svg.git"
   },
   "author": "elliott muenier",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nenlaith/wire-frame-landscape/issues"
+    "url": "https://github.com/nenlaith/wire-frame-landscape-svg/issues"
   },
-  "homepage": "https://github.com/nenlaith/wire-frame-landscape#readme",
+  "homepage": "https://github.com/nenlaith/wire-frame-landscape-svg#readme",
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
