@@ -13,9 +13,18 @@ class Color {
     return Color.from_HSL_to_RGB(this.hue, this.saturation, this.lightness);
   }
 
+  static trans_int_to_hex(int) {
+    let coucou = Math.round(int * 255).toString(16);
+    if (coucou.length == 0)
+      return "00";
+    else if (coucou.length == 1)
+      return "0" + coucou;
+    return coucou;
+  }
+
   get_RGB_HTML() {
     let rgb = this.get_RGB();
-    return "#" + Math.round(rgb[0] * 255).toString(16) + Math.round(rgb[1] * 255).toString(16) + Math.round(rgb[2] * 255).toString(16);
+    return "#" + Color.trans_int_to_hex(rgb[0]) + Color.trans_int_to_hex(rgb[1]) + Color.trans_int_to_hex(rgb[2]);
   }
 
   static get_RGB_HTML_from_RGB() {
@@ -23,7 +32,7 @@ class Color {
     if (rgb === null) {
       return null;
     }
-    return "#" + Math.round(rgb[0] * 255).toString(16) + Math.round(rgb[1] * 255).toString(16) + Math.round(rgb[2] * 255).toString(16);
+    return "#" + Color.trans_int_to_hex(rgb[0]) + Color.trans_int_to_hex(rgb[1]) + Color.trans_int_to_hex(rgb[2]);
   }
 
   static create_from_HSL() {

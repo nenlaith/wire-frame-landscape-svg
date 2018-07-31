@@ -118,7 +118,6 @@ var Color = function () {
   function Color(hue, saturation, lightness) {
     _classCallCheck(this, Color);
 
-    // console.log(" " + hue + " " + saturation + " " + lightness);
     this.hue = hue;
     this.saturation = saturation;
     this.lightness = lightness;
@@ -138,24 +137,28 @@ var Color = function () {
     key: "get_RGB_HTML",
     value: function get_RGB_HTML() {
       var rgb = this.get_RGB();
-      return "#" + Math.round(rgb[0] * 255).toString(16) + Math.round(rgb[1] * 255).toString(16) + Math.round(rgb[2] * 255).toString(16);
+      return "#" + Color.trans_int_to_hex(rgb[0]) + Color.trans_int_to_hex(rgb[1]) + Color.trans_int_to_hex(rgb[2]);
     }
   }], [{
+    key: "trans_int_to_hex",
+    value: function trans_int_to_hex(int) {
+      var coucou = Math.round(int * 255).toString(16);
+      if (coucou.length == 0) return "00";else if (coucou.length == 1) return "0" + coucou;
+      return coucou;
+    }
+  }, {
     key: "get_RGB_HTML_from_RGB",
     value: function get_RGB_HTML_from_RGB() {
       var rgb = Color.get_RGB_from_representation.apply(null, arguments);
-      // console.log(rgb);
       if (rgb === null) {
         return null;
       }
-      return "#" + Math.round(rgb[0] * 255).toString(16) + Math.round(rgb[1] * 255).toString(16) + Math.round(rgb[2] * 255).toString(16);
+      return "#" + Color.trans_int_to_hex(rgb[0]) + Color.trans_int_to_hex(rgb[1]) + Color.trans_int_to_hex(rgb[2]);
     }
   }, {
     key: "create_from_HSL",
     value: function create_from_HSL() {
       var hsl = Color.get_HSL_from_representation.apply(null, arguments);
-      // console.log(arguments[0]);
-      // console.log(hsl);
       if (hsl === null) {
         return null;
       }
@@ -174,8 +177,6 @@ var Color = function () {
     key: "from_RGB_to_HSL",
     value: function from_RGB_to_HSL() {
       var rgb = Color.get_RGB_from_representation.apply(null, arguments);
-      // console.log("coucou");
-      // console.log(rgb);
       if (rgb === null) {
         return null;
       }
@@ -202,7 +203,6 @@ var Color = function () {
     key: "from_HSL_to_RGB",
     value: function from_HSL_to_RGB() {
       var hsl = Color.get_HSL_from_representation.apply(null, arguments);
-      //console.log(hsl);
       if (hsl === null) {
         return null;
       }
@@ -210,16 +210,13 @@ var Color = function () {
       var hue = hsl[0],
           saturation = hsl[1],
           lightness = hsl[2];
-      //console.log(hsl);
 
       var C = (1 - Math.abs(2 * lightness - 1)) * saturation;
       var hue_prime = hue / 60;
-      //console.log(hue_prime);
       var X = C * (1 - Math.abs(hue_prime % 2 - 1));
       var rgb_one = function () {
         if (0 <= hue_prime && hue_prime <= 1) return [C, X, 0];else if (1 <= hue_prime && hue_prime <= 2) return [X, C, 0];else if (2 <= hue_prime && hue_prime <= 3) return [0, C, X];else if (3 <= hue_prime && hue_prime <= 4) return [0, X, C];else if (4 <= hue_prime && hue_prime <= 5) return [X, 0, C];else if (5 <= hue_prime && hue_prime <= 6) return [C, 0, X];
       }();
-      //console.log(rgb_one);
       var m = lightness - 1.0 / 2.0 * C;
       var red = rgb_one[0] + m,
           green = rgb_one[1] + m,
@@ -230,8 +227,6 @@ var Color = function () {
   }, {
     key: "get_HSL_from_representation",
     value: function get_HSL_from_representation() {
-      // console.log("arguments");
-      // console.log(arguments);
       if (arguments.length === 3 && typeof arguments[0] === "number" && typeof arguments[1] === "number" && typeof arguments[2] === "number" && arguments[0] <= 360 && arguments[1] <= 1.0 && arguments[2] <= 1.0) {
         return [arguments[0], arguments[1], arguments[2]];
       } else if (arguments.length === 1 && Array.isArray(arguments[0]) && typeof arguments[0][0] === "number" && typeof arguments[0][1] === "number" && typeof arguments[0][2] === "number" && arguments[0][0] <= 360 && arguments[0][1] <= 1.0 && arguments[0][2] <= 1.0) {
@@ -960,7 +955,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var wfl = WFL.create("canvas-wrapper", 20, 10, "#FFFFFF", "#0496FF");
 
 setTimeout(function () {
-  wfl.animate_colors("#D81159", "#FFBC42");
+  wfl.animate_colors("#FF00FF", "#006BA6");
 }, 1000);
 
 /***/ }),
@@ -1075,12 +1070,8 @@ var WireFrameLandscape = function () {
         for (var i = 0; i < number_of_point; ++i) {
           cx = i / (number_of_point - 1) * width - width / 2.0;
           cy = j / (number_of_point - 1) * height - height / 2.0;
-          // console.log("cx: " + cx + ", cy: " + cy);
-          // rot_cx = cx;
-          // rot_cy = cy;
           rot_cx = cx * matrix[0][0] + cy * matrix[0][1];
           rot_cy = cx * matrix[1][0] + cy * matrix[1][1];
-          // console.log("cx: " + ( cx + screen_mid_x ) + ", cy: " + ( cy + screen_mid_y  ));
           points[j][i].set_position(rot_cx + screen_mid_x + translate, rot_cy + screen_mid_y + translate);
         }
       }
@@ -1222,9 +1213,6 @@ var WireFrameLandscape = function () {
         back.push(to_background[i] - from_background[i]);
         wire.push(to_wire[i] - from_wire[i]);
       }
-      // console.log(back);
-      // console.log(wire);
-
       var date = null;
       var interval_key = null;
       var frac = void 0;
@@ -1237,18 +1225,6 @@ var WireFrameLandscape = function () {
         }
 
         frac = (current - date) / (time * 1000);
-
-        // console.log("frac: " + frac);
-        // console.log(back.map(function (item) {
-        //   return item * frac
-        // }).map(function (item, index) {
-        //   return item + from_background[index];
-        // }));
-        // console.log(Color.get_RGB_HTML_from_RGB(back.map(function (item) {
-        //   return item * frac
-        // }).map(function (item, index) {
-        //   return item + from_background[index];
-        // })));
 
         $this.rect.setAttribute("fill", _color2.default.get_RGB_HTML_from_RGB(back.map(function (item) {
           return item * frac;
